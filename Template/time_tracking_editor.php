@@ -36,6 +36,13 @@
             <td><?= $this->dt->datetime($record['start']) ?></td>
             <td><?= $this->dt->datetime($record['end']) ?></td>
             <td><?= n($record['time_spent']).' '.t('hours') ?></td>
+            <td>
+                <?= $this->render('timetrackingeditor:menu', array(
+                    'task' => $task,
+                    'subtask_id' => $record['subtask_id'],
+                    'id' => $record['id']
+                )) ?>
+            </td>
         </tr>
         <?php endforeach ?>
     </table>

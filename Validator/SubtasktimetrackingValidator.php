@@ -23,11 +23,7 @@ class SubtasktimetrackingValidator extends BaseValidator
      */
     public function validateCreation(array $values)
     {
-        $rules = array(
-            new Validators\Required('task_id', t('The Task id is required')),
-/*            new Validators\Required('opposite_subtask_id', t('The subtask is required')),
-            new Validators\Required('start_date', t('The Start Date is required')),
-            new Validators\Required('time_spent', t('The Time spent is required')), */
+        $rules = array( 
         );
 
         $v = new Validator($values, $rules);
@@ -48,9 +44,7 @@ class SubtasktimetrackingValidator extends BaseValidator
     public function validateModification(array $values)
     {
         $rules = array(
-            new Validators\Required('id', t('The subtask id is required')),
-            new Validators\Required('task_id', t('The task id is required')),
-            new Validators\Required('title', t('The title is required')),
+            new Validators\Required('id', t('The Timetracking id is required')),
         );
 
         $v = new Validator($values, array_merge($rules, $this->commonValidationRules()));
@@ -59,5 +53,21 @@ class SubtasktimetrackingValidator extends BaseValidator
             $v->execute(),
             $v->getErrors()
         );
+    }
+
+    /**
+    * Common validation rules, valid for creation and modification
+    *
+    * @access private
+    */
+    private function commonValidationRules()
+    {
+        $rules = array(
+            new Validators\Required('task_id', t('The Task id is required')),
+            new Validators\Required('opposite_subtask_id', t('The subtask is required')),
+            new Validators\Required('start', t('The Start Date is required')),
+            new Validators\Required('time_spent', t('The Time spent is required')),
+        );
+        return $rules;
     }
 }
