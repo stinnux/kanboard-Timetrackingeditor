@@ -24,6 +24,27 @@ class Plugin extends Base
         Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
     }
 
+    public function getClasses()
+    {
+      return array(
+        'Plugin\Timetrackingeditor\Model' => array(
+            'SubtasktimetrackingCreationModel',
+            'SubtasktimetrackingEditModel'
+        ),
+        'Plugin\Timetrackingeditor\Filter' => array(
+          'SubtaskFilter',
+          'SubtaskTaskFilter',
+          'SubtaskTitleFilter'
+        ),
+        'Plugin\Timetrackingeditor\Validator' => array(
+          'SubtasktimetrackingValidator'
+        ),
+        'Plugin\Timetrackingeditor\Formatter' => array(
+          'SubtaskAutoCompleteFormatter'
+        )
+      );
+    }
+
     public function getPluginName()
     {
         return 'Timetrackingeditor';

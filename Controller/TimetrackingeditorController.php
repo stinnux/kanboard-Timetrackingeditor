@@ -60,8 +60,7 @@ class TimetrackingeditorController extends BaseController
                        );
        }
 
-       $model = new SubtasktimetrackingEditModel($this->container);
-       $timetracking = $model->getById($values['id']);
+       $timetracking = $this->subtasktimetrackingEditModel->getById($values['id']);
 
        $values['start'] = $timetracking['start'];
        $values['time_spent'] = $timetracking['time_spent'];
@@ -94,8 +93,7 @@ class TimetrackingeditorController extends BaseController
       $validator = new SubtasktimetrackingValidator($this->container);
       list($valid, $errors) = $validator->validateModification($values);
 
-      $subtasktimetrackingEditModel = new SubtasktimetrackingEditModel($this->container);
-      if ($valid && $subtasktimetrackingEditModel->update($values)) {
+      if ($valid && $this->subtasktimetrackingEditModel->update($values)) {
         $this->flash->success(t('Timetracking entry updated successfully.'));
         $this->updateTimespent($values['task_id'], $values['old_opposite_subtask_id'], $values['old_time_spent'] * -1);
         $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
@@ -119,12 +117,7 @@ class TimetrackingeditorController extends BaseController
       $project = $this->getProject();
       $values = $this->request->getValues();
 
-      $this->logger->debug("In Save");
-
-      $validator = new SubtasktimetrackingValidator($this->container);
-      list($valid, $errors) = $validator->validateCreation($values);
-
-      $this->logger->debug("Valid? " . ($valid ? "True" : "False"));
+      list($valid, $errors) = $this->subtasktimetrackingValidator->validateCreation($values);
 
       $subtasktimetrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
       if ($valid && $subtasktimetrackingCreationModel->create($values)) {
@@ -148,8 +141,7 @@ class TimetrackingeditorController extends BaseController
 
        $id = $this->request->getIntegerParam('id');
 
-        $model = new SubtasktimetrackingEditModel($this->container);
-        $timetracking = $model->getById($id);
+        $timetracking = $this->subtasktimetrackingEditModel->getById($id);
 
         $this->response->html($this->template->render('timetrackingeditor:remove', array(
             'timetracking' => $timetracking,
@@ -166,12 +158,9 @@ class TimetrackingeditorController extends BaseController
         $this->checkCSRFParam();
         $id = $this->request->getIntegerParam('id');
 
-        $model = new SubtasktimetrackingEditModel($this->container);
+        $timetracking = $this->subtasktimetrackingEditModel->getById($id);
 
-        $timetracking = $model->getById($id);
-
-
-        if ($model->remove($id)) {
+        if ($this->subtasktimetrackingEditModel->remove($id)) {
             $this->updateTimespent($timetracking['task_id'], $timetracking['subtask_id'], $timetracking['time_spent'] * -1);
             $this->flash->success(t('Entry removed successfully.'));
         } else {
@@ -191,9 +180,8 @@ class TimetrackingeditorController extends BaseController
 
     private function updateTimespent($task_id, $subtask_id, $time_spent)
     {
-      $subtasktimetrackingmodel = new SubtaskTimeTrackingModel($this->container);
-      $subtasktimetrackingmodel->updateSubtaskTimeSpent($subtask_id, $time_spent);
-      return $subtasktimetrackingmodel->updateTaskTimeTracking($task_id);
+      $this->subtaskTimeTrackingModel->updateSubtaskTimeSpent($subtask_id, $time_spent);
+      return $this->subtaskTimeTrackingModel->updateTaskTimeTracking($task_id);
 
     }
 

@@ -25,9 +25,6 @@ class SubtaskAjaxController extends BaseController
      */
     public function autocomplete()
     {
-
-      $this->logger->debug("In Autocomplete: " . $this->request->getStringParam("term"));
-
         $search = $this->request->getStringParam('term');
         $task_id = $this->request->getIntegerParam('task_id');
 
