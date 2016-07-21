@@ -8,7 +8,9 @@
     <?= $this->form->hidden('project_id', $values) ?>
     <?= $this->form->hidden('task_id', $values) ?>
     <?= $this->form->hidden('opposite_subtask_id', $values) ?>
-    <?= $this->form->hidden("id", $values) ?>
+    <?= $this->form->hidden('id', $values) ?>
+    <?= $this->form->hidden('old_time_spent', $values) ?>
+    <?= $this->form->hidden('old_opposite_subtask_id', $values) ?>
 
     <?= $this->form->label(t('Subtask'), 'subtask') ?>
     <?= $this->form->text(

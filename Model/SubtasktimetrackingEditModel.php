@@ -104,7 +104,7 @@ class SubtasktimetrackingEditModel extends Base
 
         $values["subtask_id"] = $values["opposite_subtask_id"];
 
-        $this->helper->model->removeFields($values, array('project_id', 'task_id', 'opposite_subtask_id', 'subtask', 'add_another'));
+        $this->helper->model->removeFields($values, array('project_id', 'task_id', 'opposite_subtask_id', 'subtask', 'add_another',  'old_time_spent', 'old_opposite_subtask_id'));
 
         // Calculate end time
         $values = $this->dateParser->convert($values, array('start'), true);
