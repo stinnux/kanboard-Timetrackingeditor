@@ -60,7 +60,7 @@ class TimetrackingeditorController extends BaseController
                        );
        }
 
-       $timetracking = $this->subtasktimetrackingEditModel->getById($values['id']);
+       $timetracking = $this->subtasktimetrackingEditModel->getById($this->request->getIntegerParam('id'));
 
        $values['start'] = $timetracking['start'];
        $values['time_spent'] = $timetracking['time_spent'];

@@ -28,6 +28,7 @@
             <th class="column-20"><?= $subtask_paginator->order(t('Start'), 'start') ?></th>
             <th class="column-20"><?= $subtask_paginator->order(t('End'), 'end') ?></th>
             <th class="column-10"><?= $subtask_paginator->order(t('Time spent'), \Kanboard\Model\SubtaskTimeTrackingModel::TABLE.'.time_spent') ?></th>
+	    <th class="column-10"></th>
         </tr>
         <?php foreach ($subtask_paginator->getCollection() as $record): ?>
         <tr>
@@ -37,11 +38,13 @@
             <td><?= $this->dt->datetime($record['end']) ?></td>
             <td><?= n($record['time_spent']).' '.t('hours') ?></td>
             <td>
+		<?php if ($this->user->isCurrentUser($record['user_id'])) { ?>
                 <?= $this->render('timetrackingeditor:menu', array(
                     'task' => $task,
                     'subtask_id' => $record['subtask_id'],
                     'id' => $record['id']
                 )) ?>
+                <?php } ?>
             </td>
         </tr>
         <?php endforeach ?>

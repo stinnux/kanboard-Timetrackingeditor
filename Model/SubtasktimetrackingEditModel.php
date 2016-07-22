@@ -24,7 +24,7 @@ class SubtasktimetrackingEditModel extends Base
      * @param int $id TimetrackingId
      * @return \PicoDb\Table
      */
-     public function getById(int $id)
+     public function getById($id)
      {
        return $this->db
                    ->table(SubtaskTimeTrackingModel::TABLE)
