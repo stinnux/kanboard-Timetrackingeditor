@@ -205,7 +205,7 @@ class TimetrackingeditorController extends BaseController
 		'opposite_subtask_id' => $values['opposite_subtask_id'],
                 'task_id' => $values['task_id'],
                   'start' => $values['start'],
-            'is_billable' => $values['is_billable'];
+            'is_billable' => $values['is_billable'],
             'add_another' => 1,
             ));
         }
