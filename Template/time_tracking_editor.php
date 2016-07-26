@@ -6,8 +6,6 @@
 
 <h3><?= t('Subtask timesheet') ?></h3>
 
-<ul>
-   <li>
        <i class="fa fa-plus fa-fw"></i>
        <?= $this->url->link(t('Add a new timetracking entry'), 'TimetrackingeditorController', 'create',
           array('plugin' => 'timetrackingeditor',
@@ -15,8 +13,6 @@
                 'project_id' => $task['project_id'],
                 ),
           false, 'popover') ?>
-   </li>
-</ul>
 
 <?php if ($subtask_paginator->isEmpty()): ?>
     <p class="alert"><?= t('There is nothing to show.') ?></p>
@@ -32,7 +28,17 @@
         </tr>
         <?php foreach ($subtask_paginator->getCollection() as $record): ?>
         <tr>
-            <td><?= $this->url->link($this->text->e($record['user_fullname'] ?: $record['username']), 'UserViewController', 'show', array('user_id' => $record['user_id'])) ?></td>
+            <td><?= $this->url->link($this->text->e($record['user_fullname'] ?: $record['username']), 'UserViewController', 'show', array('user_id' => $record['user_id'])) ?>
+            <?php if ($record['is_billable']): ?>
+              <i class='fa fa-cart-plus'></i>
+            <?php endif ?>
+
+            <?php if (! empty($record['comment'])): ?>
+                <span class="tooltip" title="<?= $this->text->markdownAttribute($record['comment']) ?>">
+                    <i class="fa fa-info-circle"></i>
+                </span>
+            <?php endif ?>
+            </td>
             <td><?= t($record['subtask_title']) ?></td>
             <td><?= $this->dt->datetime($record['start']) ?></td>
             <td><?= $this->dt->datetime($record['end']) ?></td>
