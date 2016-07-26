@@ -3,7 +3,6 @@
 namespace Kanboard\Plugin\Timetrackingeditor\Model;
 
 use Kanboard\Core\Base;
-use Kanboard\Event\TaskEvent;
 use Kanboard\Model\SubtaskTimeTrackingModel;
 use Kanboard\Model\SubtaskModel;
 use Kanboard\Model\TaskModel;
@@ -34,6 +33,8 @@ class SubtasktimetrackingEditModel extends Base
                        SubtaskTimeTrackingModel::TABLE.'.end',
                        SubtaskTimeTrackingModel::TABLE.'.start',
                        SubtaskTimeTrackingModel::TABLE.'.time_spent',
+                       SubtaskTimeTrackingModel::TABLE.'.comment',
+                       SubtaskTimeTrackingModel::TABLE.'.is_billable',
                        SubtaskModel::TABLE.'.task_id',
                        SubtaskModel::TABLE.'.title AS subtask_title',
                        TaskModel::TABLE.'.title AS task_title',
@@ -73,6 +74,7 @@ class SubtasktimetrackingEditModel extends Base
      public function update(array $values)
      {
        $this->prepare($values);
+
        return $this->db->table(SubtaskTimeTrackingModel::TABLE)->eq('id', $values['id'])->update($values);
      }
 

@@ -60,15 +60,13 @@ class TimetrackingeditorController extends BaseController
                        );
        }
 
-       $timetracking = $this->subtasktimetrackingEditModel->getById($this->request->getIntegerParam('id'));
+       $values = $this->subtasktimetrackingEditModel->getById($this->request->getIntegerParam('id'));
 
-       $values['start'] = $timetracking['start'];
-       $values['time_spent'] = $timetracking['time_spent'];
-       $values['old_time_spent'] = $timetracking['time_spent'];
+       $values['old_time_spent'] = $values['time_spent'];
        $values = $this->dateParser->format($values, array('start'), $this->dateParser->getUserDateFormat());
-       $values['subtask'] = $timetracking['subtask_title'];
-       $values['opposite_subtask_id']  = $timetracking['subtask_id'];
-       $values['old_opposite_subtask_id']  = $timetracking['subtask_id'];
+       $values['subtask'] = $values['subtask_title'];
+       $values['opposite_subtask_id']  = $values['subtask_id'];
+       $values['old_opposite_subtask_id']  = $values['subtask_id'];
 
        $this->response->html($this->template->render('Timetrackingeditor:edit', array(
          'values' => $values,
@@ -89,6 +87,10 @@ class TimetrackingeditorController extends BaseController
     {
       $project = $this->getProject();
       $values = $this->request->getValues();
+
+      if (!isset($values['is_billable'])) {
+        $values["is_billable"] = 0;
+      }
 
       $validator = new SubtasktimetrackingValidator($this->container);
       list($valid, $errors) = $validator->validateModification($values);
@@ -203,6 +205,7 @@ class TimetrackingeditorController extends BaseController
 		'opposite_subtask_id' => $values['opposite_subtask_id'],
                 'task_id' => $values['task_id'],
                   'start' => $values['start'],
+            'is_billable' => $values['is_billable'];
             'add_another' => 1,
             ));
         }
