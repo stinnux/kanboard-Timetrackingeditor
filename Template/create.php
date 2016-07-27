@@ -16,7 +16,7 @@
            $errors,
            array(
                'required',
-               'autofocus',
+               (!isset($autofocus) || $autofocus == 'subtask' ?  'autofocus' : ''),
                'placeholder="'.t('Start to type subtask title...').'"',
                'title="'.t('Start to type subtask title...').'"',
                'data-dst-field="opposite_subtask_id"',
@@ -25,7 +25,7 @@
            'autocomplete') ?>
 
     <?= $this->form->label(t('Start Date'), 'start') ?>
-    <?= $this->form->text('start', $values, $errors, array('maxlength="10"', 'required'), 'form-date') ?>
+    <?= $this->form->text('start', $values, $errors, array('maxlength="10"', 'required', (isset($autofocus) && $autofocus == 'start' ?  'autofocus' : '')), 'form-datetime') ?>
 
     <?= $this->form->label(t('Time spent'), 'time_spent') ?>
     <?= $this->form->numeric('time_spent', $values, $errors, array('maxlength="10"', 'required'), 'form-numeric') ?> hours

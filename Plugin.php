@@ -2,10 +2,8 @@
 
 namespace Kanboard\Plugin\Timetrackingeditor;
 
-use DateTime;
 use Kanboard\Core\Translator;
 use Kanboard\Core\Plugin\Base;
-use Kanboard\Core\Security\Role;
 
 class Plugin extends Base
 {
@@ -17,6 +15,7 @@ class Plugin extends Base
 //      $this->route->addRoute('/task/timetracking/:task_id', 'TimeTrackingEditorController', 'create', "timetrackingeditor");
 
       $this->template->setTemplateOverride('task/time_tracking_details', 'timetrackingeditor:time_tracking_editor');
+      $this->template->setTemplateOverride('subtask/table', 'timetrackingeditor:subtask/table');
     }
 
     public function onStartup()

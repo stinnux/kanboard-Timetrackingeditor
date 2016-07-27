@@ -33,10 +33,22 @@ class TimetrackingeditorController extends BaseController
                       );
       }
 
+      if ($this->request->getIntegerParam('subtask_id')) {
+          $values['opposite_subtask_id'] = $this->request->getIntegerParam('subtask_id');
+          $subtask = $this->subtaskModel->getById($values['opposite_subtask_id']);
+
+          $values['subtask'] = $subtask['title'];
+          $autofocus = "start";
+      } else {
+          $autofocus = "subtask";
+      }
+
+
       $this->response->html($this->template->render('Timetrackingeditor:create', array(
         'values' => $values,
         'errors' => $errors,
         'project' => $project,
+        'autofocus' => $autofocus,
         'title' => t('Add new time tracking event')
       )));
     }
@@ -125,6 +137,7 @@ class TimetrackingeditorController extends BaseController
       if ($valid && $subtasktimetrackingCreationModel->create($values)) {
            $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
            $this->flash->success(t('Timetracking entry added successfully.'));
+
            return $this->afterSave($project, $values);
        }
 
