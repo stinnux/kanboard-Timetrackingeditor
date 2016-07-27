@@ -74,11 +74,9 @@ class TimetrackingeditorController extends BaseController
 
        $values = $this->subtasktimetrackingEditModel->getById($this->request->getIntegerParam('id'));
 
-       $values['old_time_spent'] = $values['time_spent'];
        $values = $this->dateParser->format($values, array('start'), $this->dateParser->getUserDateFormat());
        $values['subtask'] = $values['subtask_title'];
        $values['opposite_subtask_id']  = $values['subtask_id'];
-       $values['old_opposite_subtask_id']  = $values['subtask_id'];
 
        $this->response->html($this->template->render('Timetrackingeditor:edit', array(
          'values' => $values,
@@ -99,6 +97,7 @@ class TimetrackingeditorController extends BaseController
     {
       $project = $this->getProject();
       $values = $this->request->getValues();
+      $oldtimetracking = $this->subtaskTimeTrackingModel->getById($values['id']);
 
       if (!isset($values['is_billable'])) {
         $values["is_billable"] = 0;
@@ -109,8 +108,15 @@ class TimetrackingeditorController extends BaseController
 
       if ($valid && $this->subtasktimetrackingEditModel->update($values)) {
         $this->flash->success(t('Timetracking entry updated successfully.'));
-        $this->updateTimespent($values['task_id'], $values['old_opposite_subtask_id'], $values['old_time_spent'] * -1);
+        $this->updateTimespent($values['task_id'], $oldtimetracking['opposite_subtask_id'], $oldtimetracking['time_spent'] * -1);
         $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
+
+        if ($oldtimetracking['is_billable'] == 1) {
+            $this->updateTimebillable($values['task_id'], $oldtimetracking['opposite_subtask_id'], $oldtimetracking['time_spent'] * -1);
+        }
+        if ($values['is_billable'] == 1) {
+            $this->updateTimebillable($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
+        }
         return $this->afterSave($project, $values);
       }
 
@@ -135,10 +141,13 @@ class TimetrackingeditorController extends BaseController
 
       $subtasktimetrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
       if ($valid && $subtasktimetrackingCreationModel->create($values)) {
-           $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
-           $this->flash->success(t('Timetracking entry added successfully.'));
+         $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
+          if ($values['is_billable'] == 1) {
+            $this->updateTimebillable($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
+          }
+          $this->flash->success(t('Timetracking entry added successfully.'));
 
-           return $this->afterSave($project, $values);
+          return $this->afterSave($project, $values);
        }
 
        $this->flash->failure(t('Unable to create your time tracking entry.'));
@@ -172,11 +181,13 @@ class TimetrackingeditorController extends BaseController
     {
         $this->checkCSRFParam();
         $id = $this->request->getIntegerParam('id');
-
         $timetracking = $this->subtasktimetrackingEditModel->getById($id);
 
         if ($this->subtasktimetrackingEditModel->remove($id)) {
             $this->updateTimespent($timetracking['task_id'], $timetracking['subtask_id'], $timetracking['time_spent'] * -1);
+            if ($timetracking['is_billable'] == 1) {
+                $this->updateTimebillable($timetracking['task_id'], $timetracking['subtask_id'], $timetracking['time_spent'] * -1);
+            }
             $this->flash->success(t('Entry removed successfully.'));
         } else {
             $this->flash->failure(t('Unable to remove this entry.'));
@@ -189,7 +200,8 @@ class TimetrackingeditorController extends BaseController
     * update time spent for the task
     *
     * @access private
-    * @param int $taskid
+    * @param int $task_id
+    * @param int $subtask_id
     * @return bool
     */
 
@@ -200,6 +212,19 @@ class TimetrackingeditorController extends BaseController
 
     }
 
+/**
+ * update time billable for the task
+ *
+ * @access private
+ * @param int $task_id
+ * @param int $subtask_id
+ * @return bool
+ */
+ private function updateTimebillable($task_id, $subtask_id, $time_billable)
+ {
+     $this->subtaskTimeTrackingModel->updateSubtaskTimeBillable($subtask_id, $time_billable);
+     return $this->subtaskTimeTrackingModel->updateTaskTimeTracking($task_id);
+ }
 
 
     /**

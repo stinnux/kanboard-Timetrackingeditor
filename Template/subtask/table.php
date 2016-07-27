@@ -41,7 +41,7 @@
                             <strong><?= $this->text->e($subtask['time_estimated']).'h' ?></strong> <?= t('estimated') ?>
                         <?php endif ?>
                         <?php if (! empty($subtask['time_billable'])): ?>
-                            <strong><?= $this->text->e($subtask['time_billable']).'h' ?></strong> <?= t('estimated') ?>
+                            <strong><?= $this->text->e($subtask['time_billable']).'h' ?></strong> <?= t('billable') ?>
                         <?php endif ?>
 
                     </li>

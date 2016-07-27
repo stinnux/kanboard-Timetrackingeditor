@@ -61,8 +61,6 @@ class SubtasktimetrackingEditModel extends Base
         $this->prepare($values);
         $subtrackingid = $this->db->table(SubtaskTimeTrackingModel::TABLE)->persist($values);
 
-        $this->queueManager->push()
-
         return (int) $subtrackingid;
     }
 
