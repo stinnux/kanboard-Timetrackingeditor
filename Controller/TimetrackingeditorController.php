@@ -142,7 +142,7 @@ class TimetrackingeditorController extends BaseController
       $subtasktimetrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
       if ($valid && $subtasktimetrackingCreationModel->create($values)) {
          $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
-          if ($values['is_billable'] == 1) {
+          if (isset($values['is_billable']) && $values['is_billable'] == 1) {
             $this->updateTimebillable($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
           }
           $this->flash->success(t('Timetracking entry added successfully.'));
