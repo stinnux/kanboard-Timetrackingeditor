@@ -4,6 +4,8 @@ namespace Kanboard\Plugin\Timetrackingeditor;
 
 use Kanboard\Core\Translator;
 use Kanboard\Core\Plugin\Base;
+use Kanboard\Plugin\Timetrackingeditor\Helper\SubtaskHelper;
+use Kanboard\Plugin\Timetrackingeditor\Model\SubtasktimetrackingModel;
 
 class Plugin extends Base
 {
@@ -12,6 +14,9 @@ class Plugin extends Base
       $this->hook->on("template:layout:css", array("template" => "plugins/Timetrackingeditor/assets/css/timetrackingeditor.css"));
       $this->template->setTemplateOverride('task/time_tracking_details', 'timetrackingeditor:time_tracking_editor');
       $this->template->setTemplateOverride('subtask/table', 'timetrackingeditor:subtask/table');
+
+      $this->helper->register("subtask", "Kanboard\Plugin\Timetrackingeditor\Helper\SubtaskHelper");
+      $this->container["subtaskTimeTrackingModel"] = function($c) { return new SubtasktimetrackingModel($c); };
     }
 
     public function onStartup()
@@ -24,7 +29,8 @@ class Plugin extends Base
       return array(
         'Plugin\Timetrackingeditor\Model' => array(
             'SubtasktimetrackingCreationModel',
-            'SubtasktimetrackingEditModel'
+            'SubtasktimetrackingEditModel',
+            'SubtasktimetrackingModel',
         ),
         'Plugin\Timetrackingeditor\Filter' => array(
           'SubtaskFilter',
@@ -36,7 +42,11 @@ class Plugin extends Base
         ),
         'Plugin\Timetrackingeditor\Formatter' => array(
           'SubtaskAutoCompleteFormatter'
+        ),
+        'Plugin\Timetrackingeditor\Helper' => array(
+          'SubtaskHelper'
         )
+
       );
     }
 

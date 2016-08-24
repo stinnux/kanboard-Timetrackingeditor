@@ -16,6 +16,35 @@ use Kanboard\Model\TaskModel;
 class SubtasktimetrackingEditModel extends Base
 {
 
+  /**
+   * GetOpenTimer
+   * Returns the Open (started but not finished) Time Tracking entry
+   * for a specific user and subtask
+   *
+   * @access public
+   * @param  integer    $user_id   User id
+   * @param  integer    $subtask_id Subtask id
+   * @return \Picodb\Table
+   */
+   public function getOpenTimer($user_id, $subtask_id)
+   {
+     return $this->db
+                  ->table(SubtaskTimeTrackingModel::TABLE)
+                  ->columns(
+                      SubtaskTimeTrackingModel::TABLE.'.id',
+                      SubtaskTimeTrackingModel::TABLE.'.subtask_id',
+                      SubtaskTimeTrackingModel::TABLE.'.end',
+                      SubtaskTimeTrackingModel::TABLE.'.start',
+                      SubtaskTimeTrackingModel::TABLE.'.time_spent',
+                      SubtaskTimeTrackingModel::TABLE.'.comment',
+                      SubtaskTimeTrackingModel::TABLE.'.is_billable'
+                  )
+                  ->eq(SubtaskTimeTrackingModel::TABLE.'.subtask_id', $subtask_id)
+                  ->eq(SubtaskTimeTrackingModel::TABLE.'.user_id', $user_id)
+                  ->eq(SubtaskTimeTrackingModel::TABLE.'.end', 0)
+                  ->findOne();
+   }
+
     /**
      * Get by Id
      *

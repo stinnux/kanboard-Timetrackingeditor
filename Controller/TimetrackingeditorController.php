@@ -2,6 +2,7 @@
 
 namespace Kanboard\Plugin\Timetrackingeditor\Controller;
 use Kanboard\Controller\BaseController;
+use Kanboard\Controller\SubtaskStatusController;
 use Kanboard\Model\SubtaskTimeTrackingModel;
 use Kanboard\Plugin\Timetrackingeditor\Model\SubtasktimetrackingEditModel;
 use Kanboard\Plugin\Timetrackingeditor\Model\SubtasktimetrackingCreationModel;
@@ -16,7 +17,131 @@ use Kanboard\Plugin\Timetrackingeditor\Validator\SubtasktimetrackingValidator;
 class TimetrackingeditorController extends BaseController
 {
 
+/**
+ * Show Form to start the timer
+ * @access public
+ * @param array $values
+ * @param arry $errors
+ */
 
+ public function start(array $values = array(), array $errors = array())
+ {
+   $project = $this->getProject();
+
+   if (empty($values)) {
+     $values = array('project_id' => $project['id'],
+                     'task_id' => $this->request->getIntegerParam('task_id'),
+                     'subtask_id' => $this->request->getIntegerParam('subtask_id')
+                   );
+   }
+
+   $values['subtask'] = $this->subtaskModel->getById($values['subtask_id']);
+
+   $this->response->html($this->template->render('Timetrackingeditor:start', array(
+     'values' => $values,
+     'errors' => $errors,
+     'project' => $project,
+     'title' => t('Start a new timer')
+   )));
+ }
+
+ /**
+  * Show Form to stop the timer
+  * @access public
+  * @param array $values
+  * @param arry $errors
+  */
+
+  public function stop(array $values = array(), array $errors = array())
+  {
+    $project = $this->getProject();
+
+    if (empty($values)) {
+      $values = array('project_id' => $project['id'],
+                      'task_id' => $this->request->getIntegerParam('task_id'),
+                      'subtask_id' => $this->request->getIntegerParam('subtask_id')
+                    );
+    }
+
+    $values['subtask'] = $this->subtaskModel->getById($values['subtask_id']);
+
+    $timetracking = $this->subtasktimetrackingEditModel
+                      ->getOpenTimer(
+                            $values['subtask_id'],
+                            $this->userSession->getId()
+                          );
+
+    $values['comment'] = $timetracking["comment"];
+    $values['is_billable'] = $timetracking['is_billable'];
+
+    $this->response->html($this->template->render('Timetrackingeditor:stop', array(
+      'values' => $values,
+      'errors' => $errors,
+      'project' => $project,
+      'title' => t('Stop a timer')
+    )));
+  }
+
+
+/**
+ * Start the timer and save comment and is_billable
+ * @access public
+ *
+ */
+
+ public function startsave()
+ {
+   $values = $this->request->getValues();
+   $project = $this->getProject();
+   $task = $this->getTask();
+
+   if (!$this->subtasktimetrackingModel->logStartTimeExtended(
+        $values['subtask_id'],
+        $this->userSession->getId(),
+        $values['comment'],
+        $values['is_billable'] ?: 0)) {
+          // TODO: Best way to display the errors?
+          $this->flash->failure("Another Timer is already running");
+          return false;
+        }
+
+  $this->subtaskStatusModel->toggleStatus($values['subtask_id']);
+
+   return $this->response->redirect($this->helper->url->to('SubtaskStatusController', 'change', array(
+     'refresh-table' => 1,
+     'project_id' => $project['id'],
+     'task_id' => $task['id'],
+     'subtask_id' => $values['subtask_id']
+   )), true);
+ }
+
+ /**
+  * Stop the timer and save comment and is_billable
+  *
+  * @access public
+  */
+  public function stopsave()
+  {
+
+    $values = $this->request->getValues();
+    $project = $this->getProject();
+    $task = $this->getTask();
+
+    $this->subtasktimetrackingModel->logEndTimeExtended(
+         $values['subtask_id'],
+         $this->userSession->getId(),
+         $values['comment'],
+         $values['is_billable'] ?: 0);
+
+   $this->subtaskStatusModel->toggleStatus($values['subtask_id']);
+
+    return $this->response->redirect($this->helper->url->to('SubtaskStatusController', 'change', array(
+      'refresh-table' => 1,
+      'project_id' => $project['id'],
+      'task_id' => $task['id'],
+      'subtask_id' => $values['subtask_id']
+    )), true);
+  }
   /**
    * Show Form to create new entry
    * @access public
