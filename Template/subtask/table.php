@@ -68,7 +68,7 @@
                 </td>
                 <td>
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    <?= $this->url->link(t('New'), 'TimetrackingeditorController', 'create', array('plugin' => 'TimetrackingEditor', 'task_id' => $task['id'], 'project_id' => $task['project_id'], 'subtask_id' => $subtask['id']), false, 'popover') ?>
+                    <?= $this->url->link(t('New'), 'TimetrackingeditorController', 'create', array('plugin' => 'Timetrackingeditor', 'task_id' => $task['id'], 'project_id' => $task['project_id'], 'subtask_id' => $subtask['id']), false, 'popover') ?>
                 </td>
 
             <?php endif ?>

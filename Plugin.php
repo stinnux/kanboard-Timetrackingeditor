@@ -9,11 +9,7 @@ class Plugin extends Base
 {
     public function initialize()
     {
-    //  $this->applicationAccessMap->add('TimeTrackingEditorController', '*', Role::PROJECT_MEMBER);
-    //  $this->projectAccessMap->add('TimeTrackingEditorController', '*', Role::PROJECT_MEMBER);
-
-//      $this->route->addRoute('/task/timetracking/:task_id', 'TimeTrackingEditorController', 'create', "timetrackingeditor");
-
+      $this->hook->on("template:layout:css", array("template" => "plugins/Timetrackingeditor/assets/css/timetrackingeditor.css"));
       $this->template->setTemplateOverride('task/time_tracking_details', 'timetrackingeditor:time_tracking_editor');
       $this->template->setTemplateOverride('subtask/table', 'timetrackingeditor:subtask/table');
     }
