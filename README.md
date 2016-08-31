@@ -12,7 +12,7 @@ Author
 Requirements
 ------------
 
-- Kanboard >= 1.0.31 (not testet with older versions)
+- Kanboard >= 1.0.32 (not testet with older versions)
 
 
 Installation
@@ -34,5 +34,7 @@ With this plugin you are able to edit, remove and manually create entries in the
 
 Just go to a subtask, select "Time Tracking" (only visible if you have entered either an estimate and/or time spent value for the Task). Now you have the opportunity to add/remove/delete entries. You are only allowed to remove and edit your own entries.
 
+You can also add comments to every Time Tracking entry and select if the time is billable or not. Entries that have been selected as billable have a shopping cart symbol. 
 
+Additionally you can export all time tracking entries as an HTML table (which makes it easy to import to excel) using the command ``` kanboard export:allsubtaskstimetracking```
 
