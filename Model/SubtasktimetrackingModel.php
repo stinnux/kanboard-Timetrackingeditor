@@ -95,5 +95,24 @@ class SubtaskTimeTrackingModel extends \Kanboard\Model\SubtaskTimeTrackingModel
                   ->eq(TaskModel::TABLE.'.id', $task_id);
   }
 
+  /**
+   * Update subtask time billable
+   *
+   * @access public
+   * @param  integer   $subtask_id
+   * @param  float     $time_billable
+   * @return bool
+   */
+  public function updateSubtaskTimeBillable($subtask_id, $time_billable)
+  {
+      $subtask = $this->subtaskModel->getById($subtask_id);
+
+      return $this->subtaskModel->update(array(
+          'id' => $subtask['id'],
+          'time_billable' => $subtask['time_billable'] + $time_billable,
+          'task_id' => $subtask['task_id'],
+      ), false);
+  }
+
 
 }

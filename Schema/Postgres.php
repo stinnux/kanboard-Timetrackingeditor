@@ -2,7 +2,12 @@
 
 namespace Kanboard\Plugin\Timetrackingeditor\Schema;
 
-const VERSION = 1;
+const VERSION = 2;
+
+function vesion_2($pdo)
+{
+  $pdo->exec("ALTER TABLE subtasks add time_billable INTEGER default 0");
+}
 
 function version_1($pdo)
 {
