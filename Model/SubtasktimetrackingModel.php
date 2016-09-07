@@ -114,5 +114,20 @@ class SubtaskTimeTrackingModel extends \Kanboard\Model\SubtaskTimeTrackingModel
       ), false);
   }
 
+  /**
+   * get a Subtasktimetracking entry by Id
+   *
+   * @access public
+   * @param $id the subtasktimetracking id
+   * @return array
+   */
+   public function getById($id)
+   {
+     return $this->db
+                  ->table(SubtaskTimeTrackingModel::TABLE)
+                  ->eq('id', $id)
+                  ->findOne();
+   }
+
 
 }

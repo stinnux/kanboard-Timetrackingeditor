@@ -3,7 +3,6 @@
 namespace Kanboard\Plugin\Timetrackingeditor\Model;
 
 use Kanboard\Core\Base;
-use Kanboard\Model\SubtaskTimeTrackingModel;
 use Kanboard\Model\SubtaskModel;
 use Kanboard\Model\TaskModel;
 
