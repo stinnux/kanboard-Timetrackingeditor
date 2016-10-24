@@ -163,7 +163,7 @@ class TimetrackingeditorController extends BaseController
           $subtask = $this->subtaskModel->getById($values['opposite_subtask_id']);
 
           $values['subtask'] = $subtask['title'];
-          $autofocus = "start";
+          $autofocus = "time_spent";
       } else {
           $autofocus = "subtask";
       }

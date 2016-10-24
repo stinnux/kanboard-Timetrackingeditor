@@ -24,11 +24,11 @@
            ),
            'autocomplete') ?>
 
-    <?= $this->form->label(t('Start Date'), 'start') ?>
-    <?= $this->form->text('start', $values, $errors, array('maxlength="10"', 'required', (isset($autofocus) && $autofocus == 'start' ?  'autofocus' : '')), 'form-date') ?>
+     <?= $this->form->label(t('Time spent'), 'time_spent') ?>
+     <?= $this->form->numeric('time_spent', $values, $errors, array('maxlength="10"', 'required', (isset($autofocus) && $autofocus == "time_spent" ? 'autofocus' : '')), 'form-numeric') ?> hours
 
-    <?= $this->form->label(t('Time spent'), 'time_spent') ?>
-    <?= $this->form->numeric('time_spent', $values, $errors, array('maxlength="10"', 'required'), 'form-numeric') ?> hours
+    <?= $this->form->label(t('Start Date'), 'start') ?>
+    <?= $this->form->text('start', $values, $errors, array('maxlength="10"', 'required'), 'form-date') ?>
 
     <?= $this->form->label(t('Comment'), 'comment') ?>
     <?= $this->form->textarea('comment', $values, $errors, array(), 'markdown-editor') ?>
