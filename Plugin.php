@@ -48,7 +48,7 @@ class Plugin extends Base
           'SubtaskTimeTrackingExport'
         ),
         'Plugin\Timetrackingeditor\Validator' => array(
-          'SubtasktimetrackingValidator'
+          'SubtaskTimeTrackingValidator'
         ),
         'Plugin\Timetrackingeditor\Formatter' => array(
           'SubtaskAutoCompleteFormatter'

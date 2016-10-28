@@ -7,7 +7,7 @@
 <h3><?= t('Subtask timesheet') ?></h3>
 
        <i class="fa fa-plus fa-fw"></i>
-       <?= $this->url->link(t('Add a new timetracking entry'), 'TimetrackingeditorController', 'create',
+       <?= $this->url->link(t('Add a new timetracking entry'), 'TimeTrackingEditorController', 'create',
           array('plugin' => 'timetrackingeditor',
                 'task_id' => $task['id'],
                 'project_id' => $task['project_id'],

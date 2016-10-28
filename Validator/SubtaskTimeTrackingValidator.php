@@ -12,7 +12,7 @@ use Kanboard\Validator\BaseValidator;
  * @package  Kanboard\Plugin\Timetrackingeditor\Validator
  * @author   Thomas Stinner
  */
-class SubtasktimetrackingValidator extends BaseValidator
+class SubtaskTimeTrackingValidator extends BaseValidator
 {
     /**
      * Validate creation
@@ -23,7 +23,7 @@ class SubtasktimetrackingValidator extends BaseValidator
      */
     public function validateCreation(array $values)
     {
-        $rules = array( 
+        $rules = array(
         );
 
         $v = new Validator($values, $rules);

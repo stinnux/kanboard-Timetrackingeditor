@@ -1,7 +1,7 @@
 <div class="page-header">
     <h2><?= t('Start a new Timer') ?></h2>
 </div>
-<form class="popover-form" method="post" action="<?= $this->url->href('TimetrackingeditorController', 'startsave', array('plugin' => 'timetrackingeditor', 'project_id' => $values['project_id'], 'task_id' => $values['task_id'])) ?>" autocomplete="off">
+<form class="popover-form" method="post" action="<?= $this->url->href('TimeTrackingEditorController', 'startsave', array('plugin' => 'timetrackingeditor', 'project_id' => $values['project_id'], 'task_id' => $values['task_id'])) ?>" autocomplete="off">
 
     <?= $this->form->csrf() ?>
 

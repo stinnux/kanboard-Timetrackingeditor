@@ -4,9 +4,9 @@ namespace Kanboard\Plugin\Timetrackingeditor\Controller;
 use Kanboard\Controller\BaseController;
 use Kanboard\Controller\SubtaskStatusController;
 use Kanboard\Model\SubtaskTimeTrackingModel;
-use Kanboard\Plugin\Timetrackingeditor\Model\SubtasktimetrackingEditModel;
-use Kanboard\Plugin\Timetrackingeditor\Model\SubtasktimetrackingCreationModel;
-use Kanboard\Plugin\Timetrackingeditor\Validator\SubtasktimetrackingValidator;
+use Kanboard\Plugin\Timetrackingeditor\Model\SubtaskTimeTrackingEditModel;
+use Kanboard\Plugin\Timetrackingeditor\Model\SubtaskTimeTrackingCreationModel;
+use Kanboard\Plugin\Timetrackingeditor\Validator\SubtaskTimeTrackingValidator;
 
 /**
  * Column Controller
@@ -228,8 +228,7 @@ class TimeTrackingEditorController extends BaseController
         $values["is_billable"] = 0;
       }
 
-      $validator = new SubtasktimetrackingValidator($this->container);
-      list($valid, $errors) = $validator->validateModification($values);
+      list($valid, $errors) = $this->subtaskTimeTrackingValidator->validateModification($values);
 
       if ($valid && $this->subtaskTimeTrackingEditModel->update($values)) {
         $this->flash->success(t('Timetracking entry updated successfully.'));
@@ -262,10 +261,9 @@ class TimeTrackingEditorController extends BaseController
       $project = $this->getProject();
       $values = $this->request->getValues();
 
-      list($valid, $errors) = $this->subtasktimetrackingValidator->validateCreation($values);
+      list($valid, $errors) = $this->subtaskTimeTrackingValidator->validateCreation($values);
 
-      $subtaskTimeTrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
-      if ($valid && $subtaskTimeTrackingCreationModel->create($values)) {
+      if ($valid && $this->subtaskTimeTrackingCreationModel->create($values)) {
          $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
           if (isset($values['is_billable']) && $values['is_billable'] == 1) {
             $this->updateTimebillable($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
