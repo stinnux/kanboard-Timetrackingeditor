@@ -14,7 +14,7 @@ use Kanboard\Plugin\Timetrackingeditor\Validator\SubtasktimetrackingValidator;
  * @package  Kanboard\Plugin\Timetrackingeditor\Controller
  * @author   Frederic Guillot
  */
-class TimetrackingeditorController extends BaseController
+class TimeTrackingEditorController extends BaseController
 {
 
 /**
