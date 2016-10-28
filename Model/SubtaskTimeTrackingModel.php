@@ -10,7 +10,7 @@ use Kanboard\Model\UserModel;
  * @author Thomas Stinner
  */
 
-class SubtasktimeTrackingModel extends \Kanboard\Model\SubtaskTimeTrackingModel
+class SubtaskTimeTrackingModel extends \Kanboard\Model\SubtaskTimeTrackingModel
 {
   /**
    * Log start time

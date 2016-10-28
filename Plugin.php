@@ -17,7 +17,7 @@ class Plugin extends Base
       $this->template->setTemplateOverride('subtask/table', 'timetrackingeditor:subtask/table');
 
       $this->helper->register("subtask", "Kanboard\Plugin\Timetrackingeditor\Helper\SubtaskHelper");
-      $this->container["subtaskTimeTrackingModel"] = function($c) { return new SubtaskTimeTrackingModel($c); };
+      // $this->container["subtaskTimeTrackingModel"] = function($c) { return new SubtaskTimeTrackingModel($c); };
       // $this->container["Html"] = function($c) { return new Html($c); };
 
       $this->container["cli"]->add(new AllSubtaskTimeTrackingExportCommand($this->container));
@@ -32,9 +32,9 @@ class Plugin extends Base
     {
       return array(
         'Plugin\Timetrackingeditor\Model' => array(
-            'SubtasktimetrackingCreationModel',
-            'SubtasktimetrackingEditModel',
-            'SubtasktimetrackingModel',
+            'SubtaskTimeTrackingCreationModel',
+            'SubtaskTimeTrackingEditModel',
+            'SubtaskTimeTrackingModel',
         ),
         'Plugin\Timetrackingeditor\Filter' => array(
           'SubtaskFilter',
@@ -61,7 +61,7 @@ class Plugin extends Base
 
     public function getPluginName()
     {
-        return 'Timetrackingeditor';
+        return 'TimeTrackingEditor';
     }
 
     public function getPluginDescription()
@@ -76,7 +76,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '0.0.1';
+        return '0.0.2';
     }
 
     public function getPluginHomepage()

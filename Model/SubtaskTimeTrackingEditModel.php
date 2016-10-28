@@ -12,7 +12,7 @@ use Kanboard\Model\TaskModel;
  * @package  Kanboard\Plugin\Timetrackingeditor\Model
  * @author   Thomas Stinner
  */
-class SubtasktimetrackingEditModel extends Base
+class SubtaskTimeTrackingEditModel extends Base
 {
 
   /**

@@ -12,7 +12,7 @@ use Kanboard\Model\SubtaskTimeTrackingModel;
  * @package  Kanboard\Plugin\Timetrackingeditor\Model
  * @author   Thomas Stinner
  */
-class SubtasktimetrackingCreationModel extends Base
+class SubtaskTimeTrackingCreationModel extends Base
 {
     /**
      * Create a time tracking event
