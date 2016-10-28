@@ -34,17 +34,7 @@ class SubtaskHelper extends \Kanboard\Helper\SubtaskHelper
           return $this->helper->url->link($this->getTitle($subtask), 'SubtaskRestrictionController', 'show', $params, false, 'popover');
       }
 
-      if ($subtask['status'] == SubtaskModel::STATUS_TODO) {
-        return $this->helper->url->link($this->getTitle($subtask), 'TimeTrackingEditorController', 'start', $params, false, 'popover');
-      } else if ($subtask['status'] == SubtaskModel::STATUS_INPROGRESS) {
-        return $this->helper->url->link($this->getTitle($subtask), 'TimeTrackingEditorController', 'stop', $params, false, 'popover');
-      } else if ($subtask['status'] == SubtaskModel::STATUS_DONE) {
-        $class = 'subtask-toggle-status '.($refresh_table ? 'subtask-refresh-table' : '');
-        unset($params['plugin']);
-        return $this->helper->url->link($this->getTitle($subtask), 'SubtaskStatusController', 'change', $params, false, $class);
-      }
-
+      $class = 'subtask-toggle-status '.($refresh_table ? 'subtask-refresh-table' : '');
+      return $this->helper->url->link($this->getTitle($subtask), 'SubtaskStatusController', 'change', $params, false, $class);
   }
-
-
 }

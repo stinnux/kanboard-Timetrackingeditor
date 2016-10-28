@@ -44,6 +44,11 @@ class Plugin extends Base
         'Plugin\Timetrackingeditor\Console' => array(
           'AllSubtaskTimeTrackingExportCommand'
         ),
+        'Plugin\Timetrackingeditor\Controller' => array(
+          'SubtaskStatusController',
+          'SubtaskAjaxController',
+          'TimeTrackingEditorController'
+        ),
         'Plugin\Timetrackingeditor\Export' => array(
           'SubtaskTimeTrackingExport'
         ),
