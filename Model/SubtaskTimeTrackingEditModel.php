@@ -27,7 +27,7 @@ class SubtaskTimeTrackingEditModel extends Base
    */
    public function getOpenTimer($user_id, $subtask_id)
    {
-     return $this->db
+     return $this->db 
                   ->table(SubtaskTimeTrackingModel::TABLE)
                   ->columns(
                       SubtaskTimeTrackingModel::TABLE.'.id',

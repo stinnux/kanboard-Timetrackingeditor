@@ -65,10 +65,10 @@ class TimeTrackingEditorController extends BaseController
 
     $values['subtask'] = $this->subtaskModel->getById($values['subtask_id']);
 
-    $timetracking = $this->subtasktimetrackingEditModel
+    $timetracking = $this->subtaskTimeTrackingEditModel
                       ->getOpenTimer(
-                            $values['subtask_id'],
-                            $this->userSession->getId()
+                            $this->userSession->getId(),
+                            $values['subtask_id']
                           );
 
     $values['comment'] = $timetracking["comment"];
@@ -95,7 +95,7 @@ class TimeTrackingEditorController extends BaseController
    $project = $this->getProject();
    $task = $this->getTask();
 
-   if (!$this->subtasktimetrackingModel->logStartTimeExtended(
+   if (!$this->subtaskTimeTrackingModel->logStartTimeExtended(
         $values['subtask_id'],
         $this->userSession->getId(),
         $values['comment'],
@@ -127,7 +127,7 @@ class TimeTrackingEditorController extends BaseController
     $project = $this->getProject();
     $task = $this->getTask();
 
-    $this->subtasktimetrackingModel->logEndTimeExtended(
+    $this->subtaskTimeTrackingModel->logEndTimeExtended(
          $values['subtask_id'],
          $this->userSession->getId(),
          $values['comment'],
@@ -197,7 +197,7 @@ class TimeTrackingEditorController extends BaseController
                        );
        }
 
-       $values = $this->subtasktimetrackingEditModel->getById($this->request->getIntegerParam('id'));
+       $values = $this->subtaskTimeTrackingEditModel->getById($this->request->getIntegerParam('id'));
 
        $values = $this->dateParser->format($values, array('start'), $this->dateParser->getUserDateFormat());
        $values['subtask'] = $values['subtask_title'];
@@ -231,7 +231,7 @@ class TimeTrackingEditorController extends BaseController
       $validator = new SubtasktimetrackingValidator($this->container);
       list($valid, $errors) = $validator->validateModification($values);
 
-      if ($valid && $this->subtasktimetrackingEditModel->update($values)) {
+      if ($valid && $this->subtaskTimeTrackingEditModel->update($values)) {
         $this->flash->success(t('Timetracking entry updated successfully.'));
         $this->updateTimespent($values['task_id'], $oldtimetracking['subtask_id'], $oldtimetracking['time_spent'] * -1);
         $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
@@ -264,8 +264,8 @@ class TimeTrackingEditorController extends BaseController
 
       list($valid, $errors) = $this->subtasktimetrackingValidator->validateCreation($values);
 
-      $subtasktimetrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
-      if ($valid && $subtasktimetrackingCreationModel->create($values)) {
+      $subtaskTimeTrackingCreationModel = new SubtasktimetrackingCreationModel($this->container);
+      if ($valid && $subtaskTimeTrackingCreationModel->create($values)) {
          $this->updateTimespent($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
           if (isset($values['is_billable']) && $values['is_billable'] == 1) {
             $this->updateTimebillable($values['task_id'], $values['opposite_subtask_id'], $values['time_spent']);
@@ -290,7 +290,7 @@ class TimeTrackingEditorController extends BaseController
 
        $id = $this->request->getIntegerParam('id');
 
-        $timetracking = $this->subtasktimetrackingEditModel->getById($id);
+        $timetracking = $this->subtaskTimeTrackingEditModel->getById($id);
 
         $this->response->html($this->template->render('timetrackingeditor:remove', array(
             'timetracking' => $timetracking,
@@ -306,9 +306,9 @@ class TimeTrackingEditorController extends BaseController
     {
         $this->checkCSRFParam();
         $id = $this->request->getIntegerParam('id');
-        $timetracking = $this->subtasktimetrackingEditModel->getById($id);
+        $timetracking = $this->subtaskTimeTrackingEditModel->getById($id);
 
-        if ($this->subtasktimetrackingEditModel->remove($id)) {
+        if ($this->subtaskTimeTrackingEditModel->remove($id)) {
             $this->updateTimespent($timetracking['task_id'], $timetracking['subtask_id'], $timetracking['time_spent'] * -1);
             if ($timetracking['is_billable'] == 1) {
                 $this->updateTimebillable($timetracking['task_id'], $timetracking['subtask_id'], $timetracking['time_spent'] * -1);
