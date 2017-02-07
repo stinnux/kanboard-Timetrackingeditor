@@ -23,10 +23,10 @@ class SubtaskTimeTrackingValidator extends BaseValidator
      */
     public function validateCreation(array $values)
     {
-        $rules = array(
-        );
+        $rules = array ();
+            
 
-        $v = new Validator($values, $rules);
+        $v = new Validator($values, array_merge($rules, $this->commonValidationRules()));
 
         return array(
             $v->execute(),
@@ -43,8 +43,8 @@ class SubtaskTimeTrackingValidator extends BaseValidator
      */
     public function validateModification(array $values)
     {
-        $rules = array(
-            new Validators\Required('id', t('The Timetracking id is required')),
+        $rules = array (
+            new Validators\Required('id', t('The Timetracking id is required'))
         );
 
         $v = new Validator($values, array_merge($rules, $this->commonValidationRules()));
