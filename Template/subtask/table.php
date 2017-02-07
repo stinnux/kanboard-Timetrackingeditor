@@ -67,8 +67,12 @@
                     )) ?>
                 </td>
                 <td>
-                    <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    <?= $this->url->link(t('New'), 'TimeTrackingEditorController', 'create', array('plugin' => 'Timetrackingeditor', 'task_id' => $task['id'], 'project_id' => $task['project_id'], 'subtask_id' => $subtask['id']), false, 'popover') ?>
+                    <?= $this->modal->medium("clock-o", t('New'), 'TimeTrackingEditorController', 
+                    'create', array(
+                        'plugin' => 'Timetrackingeditor', 
+                        'task_id' => $task['id'], 
+                        'project_id' => $task['project_id'], 
+                        'subtask_id' => $subtask['id'])) ?>
                 </td>
 
             <?php endif ?>
