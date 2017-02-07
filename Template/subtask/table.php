@@ -48,12 +48,18 @@
                     <?php if ($editable && $subtask['user_id'] == $this->user->getId()): ?>
                     <li>
                         <?php if ($subtask['is_timer_started']): ?>
-                            <i class="fa fa-pause"></i>
-                            <?= $this->url->link(t('Stop timer'), 'TimeTrackingEditorController', 'stop', array('plugin' => 'Timetrackingeditor', 'project_id' => $task['project_id'], 'task_id' => $subtask['task_id'], 'subtask_id' => $subtask['id']), false, 'popover') ?>
+                            <?= $this->modal->medium("pause",t('Stop timer'), 'TimeTrackingEditorController', 'stop', 
+                            array('plugin' => 'Timetrackingeditor', 
+                            'project_id' => $task['project_id'], 
+                            'task_id' => $subtask['task_id'], 
+                            'subtask_id' => $subtask['id'])) ?>
                             (<?= $this->dt->age($subtask['timer_start_date']) ?>)
                         <?php else: ?>
-                            <i class="fa fa-play-circle-o"></i>
-                            <?= $this->url->link(t('Start timer'), 'TimeTrackingEditorController', 'start', array('plugin' => 'Timetrackingeditor', 'project_id' => $task['project_id'], 'task_id' => $subtask['task_id'], 'subtask_id' => $subtask['id']), false, 'popover') ?>
+                            <?= $this->modal->medium("play-circle-o",t('Start timer'), 'TimeTrackingEditorController', 'start', 
+                            array('plugin' => 'Timetrackingeditor', 
+                            'project_id' => $task['project_id'], 
+                            'task_id' => $subtask['task_id'], 
+                            'subtask_id' => $subtask['id'])) ?>
                         <?php endif ?>
                     </li>
                     <?php endif ?>
