@@ -36,5 +36,14 @@ class SubtaskStatusController extends \Kanboard\Controller\SubtaskStatusControll
 
         $this->response->html($html);
     }
+
+    protected function renderTable(array $task)
+    {
+        return $this->template->render('subtask/table', array(
+                'task' => $task,
+                'subtasks' => $this->subtaskModel->getAll($task['id']),
+                'editable' => true,
+            ));
+    }
 }
 ?>

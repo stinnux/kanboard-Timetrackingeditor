@@ -36,9 +36,6 @@
     <?= $this->form->checkbox('is_billable', t('Billable?'), 1, isset($values['is_billable']) && $values['is_billable'] == 1) ?>
     <?= $this->form->checkbox('add_another', t('Add another event'), 1, isset($values['add_another']) && $values['add_another'] == 1) ?>
 
-    <div class="form-actions">
-        <button type="submit" class="btn btn-blue"><?= t('Save') ?></button>
-        <?= t('or') ?>
-        <?= $this->url->link(t('cancel'), 'column', 'index', array('project_id' => $project['id']), false, 'close-popover') ?>
-    </div>
+    <?= $this->modal->submitButtons(); ?>
+
 </form>
