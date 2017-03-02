@@ -41,7 +41,8 @@ class SubtaskTimeTrackingExport extends Base
     public function exportAll()
     {
       $subtaskstt = $this->getAllSubtasksTimeTracking();
-      $results = array($this->getColumns());
+      $results = array($this->getFormats());
+      $results[] = $this->getColumns();
 
       foreach ($subtaskstt as $subtasktt) {
           $results[] = $this->format($subtasktt);
@@ -79,6 +80,34 @@ class SubtaskTimeTrackingExport extends Base
     }
 
     /**
+     * Get Format of the getColumns
+     *
+     * @access public
+     * @return string[]
+     */
+     public function getFormats()
+     {
+         return array(
+             'num',
+             'num',
+             'num',
+             'date',
+             'date',
+             'dec',
+             'bool',
+             'text',
+             'num',
+             'text',
+             'text',
+             'num',
+             'text',
+             'num',
+             'text',
+             'text'
+         );
+     }
+
+    /**
      * Format the output of a subtask array
      *
      * @access public
@@ -93,7 +122,7 @@ class SubtaskTimeTrackingExport extends Base
         $values[] = $subtasktt['subtask_id'];
         $values[] = $this->helper->dt->date($subtasktt['start']);
         $values[] = $this->helper->dt->date($subtasktt['end']);
-        $values[] = $subtasktt['time_spent'];
+        $values[] = str_replace(".",",",$subtasktt['time_spent']);
         $values[] = $subtasktt['is_billable'];
         $values[] = $this->helper->text->markdown($subtasktt['comment']);
         $values[] = $subtasktt['task_id'];

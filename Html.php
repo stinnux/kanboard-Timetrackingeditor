@@ -85,12 +85,15 @@ class Html
      */
     public function write($filename, array $rows)
     {
+
         $fp = fopen($filename, 'w');
 
         if (is_resource($fp)) {
+            $types = array_shift($rows);
+
             $this->writeHeader($fp);
             foreach ($rows as $row) {
-                $this->writeRow($fp, $row);
+                $this->writeRow($fp, $types, $row);
             }
             $this->writeFooter($fp);
             fclose($fp);
@@ -106,9 +109,13 @@ class Html
    */
     private function writeHeader($fp)
     {
-      fwrite($fp,"<HTML><HEAD><STYLE>");
-      fwrite($fp,"b,p {mso-data-placement: same-cell; }");
-      fwrite($fp,"</STYLE></HEAD>");
+      fwrite($fp,"<HTML><HEAD><STYLE>\n");
+      fwrite($fp,"b,p {mso-data-placement: same-cell; }\n");
+      fwrite($fp,".num { mso-number-format:General; }\n");
+      fwrite($fp,".dec { mso-number-format: 0,00; }\n");
+      fwrite($fp,".text { mso-number-format:\"\\@\"; }\n");
+      fwrite($fp,".date { mso-number-format:\"Short Date\"; }\n");
+      fwrite($fp,"</STYLE></HEAD>\n");
       fwrite($fp,"<BODY><TABLE>");
 
     }
@@ -119,13 +126,13 @@ class Html
    * @param fp filepointer
    * @param $row row
    */
-    private function writeRow($fp, array $row)
+    private function writeRow($fp, array $types, array $row)
     {
         fwrite($fp,"<tr>");
-        foreach ($row as $value) {
-          fwrite($fp,"<td>".$value."</td>");
+        foreach ($row as $key => $value) {
+          fwrite($fp,"<td class='".$types[$key]."'>".$value."</td>");
         }
-        fwrite($fp,"</tr>");
+        fwrite($fp,"</tr>\n");
     }
 
   /**
