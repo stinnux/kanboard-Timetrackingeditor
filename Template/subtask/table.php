@@ -20,7 +20,7 @@
             <td>
                 <?php if ($editable): ?>
                     <i class="fa fa-arrows-alt draggable-row-handle" title="<?= t('Change subtask position') ?>"></i>
-                    <?= $this->subtask->toggleStatus($subtask, $task['project_id'], true) ?>
+                    <?= $this->subtask->renderToggleStatus($task, $subtask, "table") ?>
                 <?php else: ?>
                     <?= $this->subtask->getTitle($subtask) ?>
                 <?php endif ?>
