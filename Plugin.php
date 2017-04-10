@@ -83,4 +83,9 @@ class Plugin extends Base
     {
         return 'https://github.com/stinnux/kanboard-timetrackingeditor';
     }
+
+    public function getCompatibleVersion()
+    {
+	return '1.0.41';
+    }
 }
