@@ -30,12 +30,7 @@
             <?php if ($record['is_billable']): ?>
               <i class='fa fa-cart-plus'></i>
             <?php endif ?>
-
-            <?php if (! empty($record['comment'])): ?>
-                <span class="tooltip" title="<?= $this->text->markdownAttribute($record['comment']) ?>">
-                    <i class="fa fa-info-circle"></i>
-                </span>
-            <?php endif ?>
+            <?= $this->app->tooltipMarkdown($record['comment']) ?>
             </td>
             <td><?= t($record['subtask_title']) ?></td>
             <td><?= $this->dt->datetime($record['start']) ?></td>
