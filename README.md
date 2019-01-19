@@ -2,6 +2,10 @@ Timetrackingeditor
 ==================
 
 
+## Important Notice
+
+I am no longer using Kanboard, therefore i will no longer maintain or support the Timetrackingeditor. I twould be great if someone is interested in volunteering to maintain the project in the future.
+
 Allows manual adding and editon of Timetracking Entries
 
 Author
